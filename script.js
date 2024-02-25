@@ -75,8 +75,13 @@ const locations = [
     "button text": ["REPLAY?", "REPLAY?", "REPLAY?"],
     "button functions": [restart, restart, restart],
     text: "You die. &#x2620;"
+  },
+  {
+    name: "win",
+    "button text": ["REPLAY?", "REPLAY?", "REPLAY?"],
+    "button functions": [restart, restart, restart],
+    text: "You defeat the dragon! YOU WIN THE GAME! &#x1F389;"
   }
-
 ];
 
 // initialize buttons
@@ -91,7 +96,7 @@ function update(location) {
   button1.onclick = location["button functions"][0];
   button2.onclick = location["button functions"][1];
   button3.onclick = location["button functions"][2];
-  text.innerText = location.text;
+  text.innerHTML = location.text;
 }
 
 function goTown() {
@@ -106,10 +111,6 @@ function goCave() {
   update(locations[2]);
 }
 
-function fightDragon() {
-  console.log("Fighting dragon.");
-}
-
 function buyHealth() {
   if (gold >= 10) {
     gold -= 10;
@@ -120,6 +121,7 @@ function buyHealth() {
     text.innerText = "You do not have enough gold to buy health.";
   }
 }
+
 function buyWeapon() {
   if (currentWeapon < weapons.length - 1) {
     if (gold >= 30) {
@@ -139,6 +141,7 @@ function buyWeapon() {
     button2.onclick = sellWeapon;
   }
 }
+
 function sellWeapon() {
   if (inventory.length > 1) {
     gold += 15;
@@ -205,6 +208,11 @@ function defeatMonster() {
 }
 
 function lose() {
+  update(locations[5]);
+}
+
+function winGame() {
+  update(locations[6]);
 }
 
 function restart() {
