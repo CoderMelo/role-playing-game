@@ -69,7 +69,14 @@ const locations = [
     "button text": ["Go to town square", "Go to town square", "Go to town square"],
     "button functions": [goTown, goTown, goTown],
     text: 'The monster screams "Arg!" as it dies. You gain experience points and find gold.'
+  },
+  {
+    name: "lose",
+    "button text": ["REPLAY?", "REPLAY?", "REPLAY?"],
+    "button functions": [restart, restart, restart],
+    text: "You die. &#x2620;"
   }
+
 ];
 
 // initialize buttons
@@ -145,15 +152,18 @@ function sellWeapon() {
 }
 
 function fightSlime() {
-
+  fighting = 0;
+  goFight();
 }
 
 function fightBeast() {
-
+  fighting = 1;
+  goFight();
 }
 
 function fightDragon() {
-  console.log("Fighting dragon.");
+  fighting = 2;
+  goFight();
 }
 
 function goFight() {
@@ -174,7 +184,11 @@ function attack() {
   if (health <= 0) {
     lose();
   } else if (monsterHealth <= 0) {
-    defeatMonster();
+    if (fighting === 2) {
+      winGame();
+    } else {
+      defeatMonster();
+    }
   }
 }
 
@@ -191,5 +205,16 @@ function defeatMonster() {
 }
 
 function lose() {
+}
 
+function restart() {
+  xp = 0;
+  health = 100;
+  gold = 50;
+  currentWeapon = 0;
+  inventory = ["stick"];
+  goldText.innerText = gold;
+  healthText.innerText = health;
+  xpText.innerText = xp;
+  goTown();
 }
