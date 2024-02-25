@@ -182,7 +182,13 @@ function attack() {
   text.innerText = "The " + monsters[fighting].name + " attacks.";
   text.innerText += " You attack it with your " + weapons[currentWeapon].name + ".";
   health -= getMonsterAttackValue(monsters[fighting].level);
-  monsterHealth -= weapons[currentWeapon].power + Math.floor(Math.random() * xp) + 1;
+  if (isMonsterHit()) {
+    monsterHealth -= weapons[currentWeapon].power + Math.floor(Math.random() * xp) + 1;
+
+  } else {
+    text.innerText += " You miss.";
+
+  }
   healthText.innerText = health;
   monsterHealthText.innerText = monsterHealth;
   if (health <= 0) {
@@ -196,34 +202,42 @@ function attack() {
   }
 }
 
-function dodge() {
-  text.innerText = "You dodge the attack from the " + monsters[fighting].name;
-}
+function getMonsterAttackValue(level) {
+  const hit = (level * 5) - (Math.floor(Math.random() * xp));
+  console.log(hit)
+  return hit > 0 ? hit : 0;
+  function isMonsterHit() {
+    return Math.random() > .2;
+  };
 
-function defeatMonster() {
-  gold += Math.floor(monsters[fighting].level * 6.7);
-  xp += monsters[fighting].level;
-  goldText.innerText = gold;
-  xpText.innerText = xp;
-  update(locations[4]);
-}
+  function dodge() {
+    text.innerText = "You dodge the attack from the " + monsters[fighting].name;
+  }
 
-function lose() {
-  update(locations[5]);
-}
+  function defeatMonster() {
+    gold += Math.floor(monsters[fighting].level * 6.7);
+    xp += monsters[fighting].level;
+    goldText.innerText = gold;
+    xpText.innerText = xp;
+    update(locations[4]);
+  }
 
-function winGame() {
-  update(locations[6]);
-}
+  function lose() {
+    update(locations[5]);
+  }
 
-function restart() {
-  xp = 0;
-  health = 100;
-  gold = 50;
-  currentWeapon = 0;
-  inventory = ["stick"];
-  goldText.innerText = gold;
-  healthText.innerText = health;
-  xpText.innerText = xp;
-  goTown();
-}
+  function winGame() {
+    update(locations[6]);
+  }
+
+  function restart() {
+    xp = 0;
+    health = 100;
+    gold = 50;
+    currentWeapon = 0;
+    inventory = ["stick"];
+    goldText.innerText = gold;
+    healthText.innerText = health;
+    xpText.innerText = xp;
+    goTown();
+  }
